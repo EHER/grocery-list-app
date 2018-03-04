@@ -1,0 +1,7 @@
+<router-outlet></router-outlet>
+<h1>Your lists</h1>
+<mat-list>
+  <mat-list-item *ngFor="let groceriesList of groceriesLists">
+    {{groceriesList.listName}}
+  </mat-list-item>
+</mat-list>
