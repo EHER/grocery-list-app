@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 
-import { CREATE_LIST } from '../../actions/actions'
-import { GroceriesListActions } from '../../actions/groceries-list.actions'
+import { CREATE_LIST } from '../../../data/actions/actions'
+import { GroceriesListActions } from '../../../data/actions/groceries-list.actions'
 
 import { NgRedux } from '@angular-redux/store'
 

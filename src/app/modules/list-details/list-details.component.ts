@@ -1,8 +1,8 @@
 import { ActivatedRoute } from '@angular/router'
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs/Subscription'
-import { GroceriesListActions } from '../../actions/groceries-list.actions'
-import { GroceriesListAppState, List } from '../../store'
+import { GroceriesListActions } from '../../data/actions/groceries-list.actions'
+import { GroceriesListAppState, List } from '../../data/store/index'
 import { select } from '@angular-redux/store'
 
 @Component({

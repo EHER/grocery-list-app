@@ -1,0 +1,9 @@
+<ng-container *ngIf="list">
+<mat-form-field>
+  <input matInput placeholder="Item name" [(ngModel)]="newItemName" />
+</mat-form-field>
+<button (click)="submit(list.id)" mat-raised-button color="primary">Add</button>
+</ng-container>
+<p *ngIf="newItemName && list">
+  You are adding: {{newItemName}} to {{list.listName}}
+</p>

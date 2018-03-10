@@ -1,0 +1,9 @@
+<router-outlet></router-outlet>
+
+<h1>Your lists</h1>
+
+<mat-list>
+  <mat-list-item *ngFor="let list of groceriesLists">
+    <a [routerLink]="['/list-details', list.id]" mat-button>{{list.listName}}</a>
+  </mat-list-item>
+</mat-list>
