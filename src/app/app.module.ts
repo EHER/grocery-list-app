@@ -20,6 +20,7 @@ import { ListsComponent } from './modules/list/list.component'
 import { ListCreateComponent } from './modules/list/list-create/list-create.component'
 import { ListDetailsAddItemComponent } from './modules/list-details/list-details-add-item/list-details-add-item.component'
 import { ListDetailsComponent } from './modules/list-details/list-details.component'
+import { ListDetailsItemsComponent } from './modules/list-details/list-details-items/list-details-items'
 
 import { GroceriesListAppState, initialState, rootReducer } from './data/store'
 import { GroceriesListActions } from './data/actions/groceries-list.actions'
@@ -32,6 +33,7 @@ import { GroceriesListActions } from './data/actions/groceries-list.actions'
     ListCreateComponent,
     ListDetailsAddItemComponent,
     ListDetailsComponent,
+    ListDetailsItemsComponent
   ],
   imports: [
     ApolloModule, appRouting, BrowserModule, FormsModule, HttpClientModule, HttpLinkModule, MaterialModule,

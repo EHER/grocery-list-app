@@ -1,0 +1,12 @@
+<p>Your items:</p>
+<p *ngIf="!listItems">
+  Loading!
+</p>
+<mat-list *ngIf="listItems">
+  <mat-list-item *ngFor="let item of listItems">
+    <mat-checkbox>{{item.itemName}}</mat-checkbox>
+  </mat-list-item>
+</mat-list>
+<p *ngIf="listItems && !listItems.length">
+  Your list is empty
+</p>
