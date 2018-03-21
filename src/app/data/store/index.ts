@@ -1,4 +1,4 @@
-import { ADD_LIST_ITEM, CREATE_LIST, FETCH_LIST_SUCCESS, FETCH_LISTS_SUCCESS } from '../actions/actions'
+import { Action, ADD_LIST_ITEM, CREATE_LIST, FETCH_LIST_SUCCESS, FETCH_LISTS_SUCCESS } from '../actions/actions'
 
 export interface GroceriesListAppState {
   listDetails: List
@@ -8,25 +8,24 @@ export interface GroceriesListAppState {
 export class List {
   id: number
   items: ListItem[]
-  listName: string
+  name: string
 }
 
 export class ListItem {
   id: number
-  itemName: string
+  name: string
 }
 
 export const initialState: GroceriesListAppState = {
   listDetails: {
     id: null,
     items: [],
-    listName: null
+    name: null
   },
   lists: []
 }
 
-export function rootReducer(state, action): GroceriesListAppState {
-  console.log(state.listDetails)
+export function rootReducer(state, action: Action): GroceriesListAppState {
   switch (action.type) {
     case ADD_LIST_ITEM : return addListItemReducer(state, action)
     case CREATE_LIST : return createListReducer(state, action)
@@ -36,54 +35,38 @@ export function rootReducer(state, action): GroceriesListAppState {
   return state
 }
 
-function addListItemReducer(state: GroceriesListAppState, action): GroceriesListAppState {
-  const newState = Object.assign({}, state)
-  const item = action.list.data.addItemToList
+function addListItemReducer(state: GroceriesListAppState, action: Action): GroceriesListAppState {
+  if (!action.payload || !action.payload.addItemToList) { return state }
 
-  console.log(state.listDetails)
-  console.log(newState.listDetails)
-
-  if (item && (newState.listDetails.id === item.listId)) {
-    // newState.listDetails.items.push({
-    //   id: item.id,
-    //   itemName: item.itemName
-    // })
-  }
-
-  console.log(newState)
-
-  return newState
+  return Object.assign({}, state, {
+    listDetails:  Object.assign({}, state.listDetails, {
+      items: state.listDetails.items.concat(action.payload.addItemToList)
+    })
+  })
 }
 
-function createListReducer(state: GroceriesListAppState, action): GroceriesListAppState {
-  const newState = Object.assign({}, state)
-  const createdList = action.list.data.createList
+function createListReducer(state: GroceriesListAppState, action: Action): GroceriesListAppState {
+  if (!action.payload || !action.payload.createList) { return state }
 
-  if (createdList) {
-    newState.lists.push(createdList)
-  }
-
-  return newState
+  return Object.assign({}, state, {
+    lists: state.lists.concat(action.payload.createList)
+  })
 }
 
-function listRetrievedReducer(state: GroceriesListAppState, action): GroceriesListAppState {
-  const newState = Object.assign({}, state)
-  const list = action.payload.groceriesList
-  console.log(list)
-  if (list) {
-    newState.listDetails = list
-  }
+function listRetrievedReducer(state: GroceriesListAppState, action: Action): GroceriesListAppState {
+  console.log(action, 'action')
+  console.log(action.payload, 'action.payload')
+  if (!action.payload || !action.payload.groceriesList) { return state }
 
-  return newState
+  return Object.assign({}, state, {
+    listDetails: action.payload.groceriesList
+  })
 }
 
 function listsRetrievedReducer(state: GroceriesListAppState, action): GroceriesListAppState {
-  const newState = Object.assign({}, state)
-  const lists = action.lists.data.groceriesLists
+  if (!action.payload || !action.payload.groceriesLists) { return state }
 
-  if (lists) {
-    newState.lists = lists
-  }
-
-  return newState
+  return Object.assign({}, state, {
+    lists: action.payload.groceriesLists
+  })
 }

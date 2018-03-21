@@ -10,12 +10,12 @@ import { FETCH_LIST_SUCCESS, FETCH_LISTS_SUCCESS } from './actions'
 export class GroceriesListActions {
   constructor(private ngRedux: NgRedux<List>, private apollo: Apollo) {}
 
-  addItemToList(listId: number, itemName: string) {
+  addItemToList(listId: number, name: string) {
     const addItem  = gql`
-      mutation addItemToList($listId: ID!, $itemName: String!) {
-        addItemToList(listId: $listId, itemName: $itemName) {
+      mutation addItemToList($listId: ID!, $name: String!) {
+        addItemToList(listId: $listId, name: $name) {
           id,
-          itemName,
+          name,
           listId
         }
       }
@@ -24,46 +24,50 @@ export class GroceriesListActions {
     return this.apollo.mutate({
       mutation: addItem,
       variables: {
-        itemName: itemName,
-        listId: listId
+        listId: listId,
+        name: name
       }
     })
   }
 
-  createNewList(listName: string) {
+  createNewList(name: string) {
     const createList = gql`
-      mutation createList($listName: String!) {
-        createList(listName: $listName) {
-          listName
+      mutation createList($name: String!) {
+        createList(name: $name) {
+          name
         }
       }
     `
 
+    console.log(name)
+
     return this.apollo.mutate({
       mutation: createList,
       variables: {
-        listName: listName
+        name: name
       }
     })
   }
 
   requestList(id): void {
+    console.log('request list:' + id)
     const queryList = gql`
       query groceriesList {
         groceriesList(id: ${id}) {
           id,
-          listName,
+          name,
           items {
             id,
-            itemName
+            name
           }
         }
       }
     `
-    this.apollo.query({query: queryList}).subscribe((lists) => {
+    this.apollo.query({ query: queryList }).subscribe((list) => {
+      console.log('list', list)
       this.ngRedux.dispatch({
         type: FETCH_LIST_SUCCESS,
-        payload: lists.data
+        payload: list.data
       })
     })
   }
@@ -73,14 +77,14 @@ export class GroceriesListActions {
       query groceriesLists {
         groceriesLists {
           id,
-          listName
+          name
        }
       }
     `
-    this.apollo.query({query: queryLists}).subscribe((data) => {
+    this.apollo.query({query: queryLists}).subscribe((lists) => {
       this.ngRedux.dispatch({
         type: FETCH_LISTS_SUCCESS,
-        lists: data
+        payload: lists.data
       })
     })
   }

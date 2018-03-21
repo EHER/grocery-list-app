@@ -17,27 +17,25 @@ export class ListDetailsComponent implements OnDestroy, OnInit {
 
   constructor(private actions: GroceriesListActions, private route: ActivatedRoute) {
     this.subscriptions.push(this.listDetailsSubscription.subscribe((data: List) => {
-      console.log(data)
       this.list = data
     }))
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription: Subscription) => {
+      console.log(subscription)
       subscription.unsubscribe()
     })
   }
 
   ngOnInit() {
+    console.log(this.listId)
     this.subscriptions.push(this.route.params.subscribe(params => {
       this.listId = +params['id']; // (+) converts string 'id' to a number
 
+      console.log('requestList')
       this.actions.requestList(this.listId)
-      // In a real app: dispatch action to load the details here.
     }));
-  }
-
-  private requestListDetails() {
-
+    console.log(this.listId)
   }
 }

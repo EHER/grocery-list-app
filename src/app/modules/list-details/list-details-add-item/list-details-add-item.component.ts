@@ -20,10 +20,10 @@ export class ListDetailsAddItemComponent {
   constructor(private actions: GroceriesListActions, private ngRedux: NgRedux<any>) {}
 
   submit(listId): void {
-    this.actions.addItemToList(listId, this.newItemName).subscribe((data) => {
+    this.actions.addItemToList(listId, this.newItemName).subscribe((item) => {
       this.ngRedux.dispatch({
         type: ADD_LIST_ITEM,
-        list: data
+        payload: item.data
       })
     })
   }

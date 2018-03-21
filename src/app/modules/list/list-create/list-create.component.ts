@@ -18,10 +18,10 @@ export class ListCreateComponent {
   ) {}
 
   submit(): void {
-    this.actions.createNewList(this.listName).subscribe((data) => {
+    this.actions.createNewList(this.listName).subscribe((list) => {
       this.ngRedux.dispatch({
         type: CREATE_LIST,
-        list: data
+        payload: list.data
       })
     })
   }
