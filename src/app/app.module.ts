@@ -23,7 +23,8 @@ import { ListDetailsComponent } from './modules/list-details/list-details.compon
 import { ListDetailsItemsComponent } from './modules/list-details/list-details-items/list-details-items'
 
 import { GroceriesListAppState, initialState, rootReducer } from './data/store'
-import { GroceriesListActions } from './data/actions/groceries-list.actions'
+import { GroceriesListActions } from './data/actions/groceries-list.actions';
+import { ListDetailsItemsItemComponent } from './modules/list-details/list-details-items-item/list-details-items-item.component'
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { GroceriesListActions } from './data/actions/groceries-list.actions'
     ListCreateComponent,
     ListDetailsAddItemComponent,
     ListDetailsComponent,
-    ListDetailsItemsComponent
+    ListDetailsItemsComponent,
+    ListDetailsItemsItemComponent
   ],
   imports: [
     ApolloModule, appRouting, BrowserModule, FormsModule, HttpClientModule, HttpLinkModule, MaterialModule,

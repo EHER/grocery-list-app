@@ -12,6 +12,7 @@ export class List {
 }
 
 export class ListItem {
+  checked: boolean
   id: number
   name: string
 }

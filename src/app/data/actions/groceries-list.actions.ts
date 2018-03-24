@@ -5,12 +5,14 @@ import { Apollo } from 'apollo-angular'
 import gql from 'graphql-tag';
 import { List } from '../store/index'
 import { FETCH_LIST_SUCCESS, FETCH_LISTS_SUCCESS } from './actions'
+import { Observable } from 'rxjs/Observable'
+import { Subscription } from 'rxjs/Subscription'
 
 @Injectable()
 export class GroceriesListActions {
   constructor(private ngRedux: NgRedux<List>, private apollo: Apollo) {}
 
-  addItemToList(listId: number, name: string) {
+  addItemToList(listId: number, name: string): Observable<any> {
     const addItem  = gql`
       mutation addItemToList($listId: ID!, $name: String!) {
         addItemToList(listId: $listId, name: $name) {
@@ -30,7 +32,7 @@ export class GroceriesListActions {
     })
   }
 
-  createNewList(name: string) {
+  createNewList(name: string): Observable<any> {
     const createList = gql`
       mutation createList($name: String!) {
         createList(name: $name) {
@@ -38,8 +40,6 @@ export class GroceriesListActions {
         }
       }
     `
-
-    console.log(name)
 
     return this.apollo.mutate({
       mutation: createList,
@@ -49,22 +49,21 @@ export class GroceriesListActions {
     })
   }
 
-  requestList(id): void {
-    console.log('request list:' + id)
+  requestList(id): Subscription {
     const queryList = gql`
       query groceriesList {
         groceriesList(id: ${id}) {
           id,
           name,
           items {
+            checked,
             id,
             name
           }
         }
       }
     `
-    this.apollo.query({ query: queryList }).subscribe((list) => {
-      console.log('list', list)
+    return this.apollo.query({ query: queryList }).subscribe((list) => {
       this.ngRedux.dispatch({
         type: FETCH_LIST_SUCCESS,
         payload: list.data
@@ -72,7 +71,7 @@ export class GroceriesListActions {
     })
   }
 
-  requestLists(): void {
+  requestLists(): Subscription {
     const queryLists = gql`
       query groceriesLists {
         groceriesLists {
@@ -81,11 +80,29 @@ export class GroceriesListActions {
        }
       }
     `
-    this.apollo.query({query: queryLists}).subscribe((lists) => {
+    return this.apollo.query({query: queryLists}).subscribe((lists) => {
       this.ngRedux.dispatch({
         type: FETCH_LISTS_SUCCESS,
         payload: lists.data
       })
+    })
+  }
+
+  toggleListItem(id: number, checked: boolean): Observable<any> {
+    const toggleItem  = gql`
+      mutation toggleListItem($id: ID!, $checked: Boolean!) {
+        toggleListItem(id: $id, checked: $checked) {
+          id,
+          checked
+        }
+      }
+    `
+    return this.apollo.mutate({
+      mutation: toggleItem,
+      variables: {
+        id: id,
+        checked: checked
+      }
     })
   }
 }
